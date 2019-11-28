@@ -1,0 +1,213 @@
+<html>
+<head>
+</head>
+<body onload="funOnload()">
+
+<table id="testTable" border="1">
+<thead>
+<td>S.No </td>
+<td>FirstName</td>
+<td>SecondName</td>
+<td>Contact</td>
+</thead>
+<tbody>
+<tr id="tr1">
+<td>1</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+
+<tr id="tr2">
+<td>2</td>
+<td>Dev</td>
+<td>Dev</td>
+<td>950</td>
+</tr>
+<tr id="tr3">
+<td>3</td>
+<td>raja</td>
+<td>raja</td>
+<td>950</td>
+</tr>
+<tr id="tr4">
+<td>4</td>
+<td>ram</td>
+<td>ram</td>
+<td>950</td>
+</tr>
+<tr id="tr5">
+<td>5</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+<tr id="tr6">
+<td>6</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+<tr id="tr7">
+<td>7</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+
+
+<tr id="tr8">
+<td>8</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+
+<tr id="tr9">
+<td>9</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+<tr id="tr10">
+<td>10</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+<tr id="tr11">
+<td>11</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+<tr id="tr12">
+<td>12</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+<tr id="tr13">
+<td>13</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+<tr id="tr14">
+<td>14</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+<tr id="tr15">
+<td>15</td>
+<td>Balaji</td>
+<td>Kasiraj</td>
+<td>950</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<input type = "button" name="Prev" value ="Prev" id="btnPrev" onclick="PrevButtonClick()" />
+<input type = "button" name="Next" value = "Next" id="btnNext" onclick="NextButtonClick()" />
+<select id="ddlpgsize" onchange="ddlChange()">
+  <option value="5">5</option>
+  <option value="10">10</option>
+  <option value="15">15</option>
+  </select>
+  
+  <label style="display:none" id="hiddenValue">1</label>
+</body>
+
+<script type="text/javascript">
+
+function funOnload()
+{
+  var ddlControl =  document.getElementById("ddlpgsize");
+  let pgvalue = parseInt(ddlControl.options[ddlControl.selectedIndex].value);
+  let trcount = document.getElementById("testTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+  var hdn = document.getElementById('hiddenValue').innerHTML;
+  disablerows(hdn,pgvalue,trcount);
+  if(pgvalue == trcount)
+	disableButton(true,true);
+  else if(pgvalue < trcount)
+    disableButton(true,false);
+  else
+    disableButton(false,false);
+}
+
+function disablerows(pg,pgvalue,trcount)
+{
+let rowStart =  pg + pgvalue;
+for (var i = 1;  i <= trcount ; i++)
+{
+     if(i > pg * pgvalue || i < ((pg * pgvalue) - (pgvalue)) + 1 )
+	 {
+     document.getElementById("tr"+i).style.display = 'none';
+	 }
+	 
+	 else
+	 {
+	 document.getElementById("tr"+i).style.display = '';
+	 }
+}
+}
+
+function disableButton(prevVal,  nxtVal)
+{
+ document.getElementById("btnPrev").disabled = prevVal;
+ document.getElementById("btnNext").disabled = nxtVal;
+}
+
+
+function NextButtonClick()
+{
+  var ddlControl =  document.getElementById("ddlpgsize");
+  let pgvalue = parseInt(ddlControl.options[ddlControl.selectedIndex].value);
+  let trcount = document.getElementById("testTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+  var hdn = parseInt(document.getElementById('hiddenValue').innerHTML)+1;
+  document.getElementById('hiddenValue').innerHTML = hdn;
+  disablerows(hdn,pgvalue,trcount);
+  if(hdn < (parseInt(trcount)/parseInt(pgvalue)))
+    disableButton(false,false);
+  else if(hdn >= (parseInt(trcount)/parseInt(pgvalue)))
+    disableButton(false,true);
+
+}
+
+function PrevButtonClick()
+{
+  var ddlControl =  document.getElementById("ddlpgsize");
+  let pgvalue = parseInt(ddlControl.options[ddlControl.selectedIndex].value);
+  let trcount = document.getElementById("testTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+  var hdn = parseInt(document.getElementById('hiddenValue').innerHTML)-1;
+  document.getElementById('hiddenValue').innerHTML = hdn;
+  disablerows(hdn,pgvalue,trcount);
+  if(hdn == 1)
+    disableButton(true,false);
+  else if(hdn < (parseInt(trcount)/parseInt(pgvalue)))
+    disableButton(false,false);
+}
+
+function ddlChange()
+{
+  var ddlControl =  document.getElementById("ddlpgsize");
+  let pgvalue = parseInt(ddlControl.options[ddlControl.selectedIndex].value);
+  let trcount = document.getElementById("testTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+  document.getElementById('hiddenValue').innerHTML = 1;
+  var hdn = document.getElementById('hiddenValue').innerHTML;
+  disablerows(hdn,pgvalue,trcount);
+  if(pgvalue == trcount)
+	disableButton(true,true);
+  else if(pgvalue < trcount)
+    disableButton(true,false);
+  else
+    disableButton(false,false);
+  
+}
+
+</script>
+</html>
+
+
+
